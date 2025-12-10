@@ -270,6 +270,19 @@
 
     <script>
         let currentResult = null;
+        let sessionId = null;
+
+        // Generate or retrieve session ID
+        function getSessionId() {
+            if (!sessionId) {
+                // Check if session ID exists in memory
+                if (!sessionId) {
+                    // Generate new session ID
+                    sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                }
+            }
+            return sessionId;
+        }
 
         async function analyzeText() {
             const inputText = document.getElementById('inputText').value.trim();
@@ -298,7 +311,8 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        text: inputText
+                        text: inputText,
+                        sessionId: getSessionId()
                     })
                 });
 
